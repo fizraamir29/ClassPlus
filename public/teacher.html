@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <title>ClassPulse · Teacher</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="ClassPulse teacher dashboard – run live polls, Q&A and quizzes in your classroom.">
+  <link rel="icon" type="image/svg+xml" href="/img/logo.svg">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/icons.js"></script>
+  <script src="/js/theme.js"></script>
+</head>
+<body>
+
+<!-- ========== START SCREEN ========== -->
+<div id="startbar">
+  <header class="top">
+    <a class="brand" href="/"><img src="/img/logo.svg" alt="">Class<span>Pulse</span></a>
+    <div class="right">
+      <button class="icon js-theme" aria-label="Toggle theme"></button>
+    </div>
+  </header>
+  <section id="start">
+    <img class="hero-logo" src="/img/logo.svg" alt="ClassPulse logo">
+    <h1>Start a live session</h1>
+    <p class="mute">Create a room, share the code, and ask questions in real time.</p>
+    <div class="start-btns">
+      <button id="startBtn"><i data-ic="zap" data-s="17"></i>Start session</button>
+      <button class="demo" id="demoBtn"><i data-ic="play-circle" data-s="17"></i>Try demo</button>
+    </div>
+  </section>
+</div>
+
+<!-- ========== SIDEBAR OVERLAY (mobile) ========== -->
+<div class="side-overlay" id="sideOverlay"></div>
+
+<!-- ========== APP ========== -->
+<div class="app" id="app" hidden>
+
+  <!-- Mobile top bar (visible on small screens) -->
+  <div class="app-top" id="appTop">
+    <button id="menuToggle" aria-label="Open menu"><i data-ic="menu" data-s="20"></i></button>
+    <a class="brand" href="/"><img src="/img/logo.svg" alt="">Class<span>Pulse</span></a>
+    <span class="chip" style="font-size:12px">Room <b id="chipCodeMob"></b></span>
+    <button class="icon js-theme" aria-label="Toggle theme"></button>
+  </div>
+
+  <!-- Sidebar -->
+  <aside class="side" id="sidebar">
+    <div class="side-top">
+      <a class="brand" href="/"><img src="/img/logo.svg" alt="">Class<span>Pulse</span></a>
+    </div>
+    <nav id="nav">
+      <div class="side-section">Main</div>
+      <button class="on" data-v="home">
+        <span class="nav-icon"><i data-ic="layout-dashboard" data-s="17"></i></span>Overview
+      </button>
+      <button data-v="ask">
+        <span class="nav-icon"><i data-ic="plus-circle" data-s="17"></i></span>Ask a question
+      </button>
+      <button data-v="live">
+        <span class="nav-icon"><i data-ic="bar-chart" data-s="17"></i></span>Live results
+      </button>
+      <button data-v="queue">
+        <span class="nav-icon"><i data-ic="clipboard-list" data-s="17"></i></span>Queue
+        <span class="badge" id="qb" hidden></span>
+      </button>
+      <div class="side-section">Classroom</div>
+      <button data-v="students">
+        <span class="nav-icon"><i data-ic="users" data-s="17"></i></span>Students
+        <span class="badge" id="sbOnline">0</span>
+      </button>
+      <button data-v="qa">
+        <span class="nav-icon"><i data-ic="message-square" data-s="17"></i></span>Q&amp;A
+        <span class="badge" id="qn" hidden></span>
+      </button>
+      <button data-v="board">
+        <span class="nav-icon"><i data-ic="trophy" data-s="17"></i></span>Leaderboard
+      </button>
+      <button data-v="report">
+        <span class="nav-icon"><i data-ic="file-text" data-s="17"></i></span>Report
+      </button>
+    </nav>
+    <div class="side-footer">
+      <button id="endBtn">
+        <span class="nav-icon"><i data-ic="log-out" data-s="16"></i></span>End session
+      </button>
+    </div>
+  </aside>
+
+  <!-- Main content -->
+  <main class="main">
+
+    <!-- Page header (desktop) -->
+    <div class="pagehead" id="deskHead">
+      <h1 id="title">Overview</h1>
+      <div class="right">
+        <span class="chip">Room <b id="chipCode"></b></span>
+        <button class="icon js-theme" aria-label="Toggle theme"></button>
+      </div>
+    </div>
+
+    <!-- ===== Overview ===== -->
+    <section id="v-home" class="page-body">
+
+      <!-- Demo mode banner -->
+      <div class="demo-banner" id="demoBanner" hidden>
+        <i data-ic="zap" data-s="18"></i>
+        <div><b>Demo mode</b> — This is simulated data. Share <b>/student</b> with real students to go live!</div>
+      </div>
+
+      <div class="join-card">
+        <div>
+          <div class="jlabel">Room code</div>
+          <div class="code" id="code"></div>
+        </div>
+        <div class="join-divider"></div>
+        <div style="flex:1">
+          <div class="jlabel">Students open this link</div>
+          <div class="url" id="url"></div>
+        </div>
+      </div>
+
+      <div class="stats">
+        <div class="stat">
+          <div class="stat-val" id="sOnline">0</div>
+          <div class="stat-label">Students online</div>
+        </div>
+        <div class="stat">
+          <div class="stat-val" id="sAns">—</div>
+          <div class="stat-label">Answered</div>
+        </div>
+        <div class="stat">
+          <div class="stat-val" id="sConf">0</div>
+          <div class="stat-label">Confused</div>
+          <div class="meter"><div id="meter" style="width:0"></div></div>
+        </div>
+        <div class="stat">
+          <div class="stat-val sm" id="sPace">—</div>
+          <div class="stat-label">Pace feedback</div>
+        </div>
+        <div class="stat">
+          <div class="stat-val sm" id="sReact">—</div>
+          <div class="stat-label">Reactions · <a href="#" id="clrReact">clear</a></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Quick actions</h2>
+        <div class="quick-actions">
+          <button class="primary" id="qa1"><i data-ic="plus-circle" data-s="20"></i>Ask a question</button>
+          <button id="qa2"><i data-ic="ticket" data-s="20"></i>Exit ticket</button>
+          <button id="qa3"><i data-ic="bar-chart" data-s="20"></i>Live results</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Ask a question ===== -->
+    <section id="v-ask" class="page-body" hidden>
+      <div class="card">
+        <h2>Choose a question type</h2>
+        <div class="types" id="types" style="margin-top:12px"></div>
+        <textarea id="qtext" rows="3" placeholder="Type your question here…"></textarea>
+        <div id="opts"></div>
+        <label style="display:block;font-size:13px;font-weight:600;color:var(--mute);margin-bottom:6px">Timer</label>
+        <select id="dur">
+          <option value="0">No timer</option>
+          <option value="15">15 seconds</option>
+          <option value="30">30 seconds</option>
+          <option value="60">60 seconds</option>
+          <option value="120">2 minutes</option>
+        </select>
+        <div class="row" style="margin-top:4px">
+          <button id="sendBtn"><i data-ic="send" data-s="16"></i>Send to class</button>
+          <button class="ghost" id="queueBtn"><i data-ic="clipboard-list" data-s="16"></i>Add to queue</button>
+        </div>
+        <button class="ghost full" id="exitBtn" style="margin-top:10px">
+          <i data-ic="ticket" data-s="16"></i>Start Exit Ticket instead
+        </button>
+      </div>
+    </section>
+
+    <!-- ===== Live results ===== -->
+    <section id="v-live" class="page-body" hidden>
+      <div class="card">
+        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:16px">
+          <h2 id="qt" style="margin:0;flex:1">No active question</h2>
+          <span id="status" class="pill" hidden></span>
+          <span id="timer" class="timer"></span>
+        </div>
+        <div id="res">
+          <p class="mute">Send a question first to see live responses here.</p>
+          <button id="goAsk" style="margin-top:8px"><i data-ic="plus-circle" data-s="16"></i>Ask a question</button>
+        </div>
+        <p class="mute" id="answered" style="margin-top:10px"></p>
+        <div class="row" style="margin-top:10px">
+          <button class="danger" id="closeBtn" hidden><i data-ic="x" data-s="16"></i>Close &amp; reveal</button>
+          <button class="ghost" id="nextBtn" hidden><i data-ic="chevron-right" data-s="16"></i>Send next from queue</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Question queue ===== -->
+    <section id="v-queue" class="page-body" hidden>
+      <div class="card">
+        <h2>Question queue <span class="mute" id="qcount"></span></h2>
+        <div id="queue" style="margin-top:12px"></div>
+        <p class="mute" id="qempty">Nothing here yet. Use "Add to queue" while writing a question to prepare questions in advance.</p>
+      </div>
+    </section>
+
+    <!-- ===== Students ===== -->
+    <section id="v-students" class="page-body" hidden>
+      <div class="card flush">
+        <div style="padding:16px 20px;border-bottom:1px solid var(--line)">
+          <h2>Students <span class="mute" style="font-weight:400;font-size:12px">(private — only you see this)</span></h2>
+        </div>
+        <div style="padding:0 4px">
+          <table>
+            <thead><tr><th>Name</th><th>Status</th><th>Pace</th></tr></thead>
+            <tbody id="stu"></tbody>
+          </table>
+        </div>
+        <p class="mute" id="stuEmpty" style="padding:14px 20px">No students joined yet.</p>
+      </div>
+    </section>
+
+    <!-- ===== Q&A ===== -->
+    <section id="v-qa" class="page-body" hidden>
+      <div class="card">
+        <h2>Student questions</h2>
+        <label class="switch" style="margin-top:12px">
+          <input type="checkbox" id="mod">
+          Review questions before students see them
+        </label>
+        <div id="qalist"></div>
+        <p class="mute" id="qaEmpty">No questions yet. Students can ask from the Ask tab.</p>
+      </div>
+    </section>
+
+    <!-- ===== Leaderboard ===== -->
+    <section id="v-board" class="page-body" hidden>
+      <div class="card">
+        <h2>Leaderboard</h2>
+        <div id="lb" style="margin-top:12px"></div>
+      </div>
+    </section>
+
+    <!-- ===== Report ===== -->
+    <section id="v-report" class="page-body" hidden>
+      <div class="card flush">
+        <div style="padding:16px 20px;border-bottom:1px solid var(--line)">
+          <h2>Session report</h2>
+        </div>
+        <div style="padding:0 4px">
+          <table>
+            <thead><tr><th>#</th><th>Question</th><th>Answered</th><th>Correct</th><th>Confused</th></tr></thead>
+            <tbody id="hist"></tbody>
+          </table>
+        </div>
+        <p class="mute" id="histEmpty" style="padding:14px 20px">Closed questions will appear here.</p>
+        <div style="padding:14px 20px">
+          <button class="ghost" id="csvBtn"><i data-ic="download" data-s="16"></i>Download CSV report</button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<div id="toast"></div>
+<script src="/js/teacher.js"></script>
+</body>
+</html>
